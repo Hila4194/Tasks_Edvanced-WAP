@@ -1,22 +1,66 @@
 ###
-
+//Get all posts
 GET http://localhost:3000/posts
 
 ###
-
-GET http://localhost:3000/posts?sender=Hila2
-
-###
-
-GET http://localhost:3000/posts/67573fb244ec6cd88b982837
+//Get post by a sender
+GET http://localhost:3000/posts?sender=Hila
 
 ###
+//Get post by post-id
+GET http://localhost:3000/posts/675f122b954bdbd07dbf749a
 
+###
+//Create a post
 POST  http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "title": "My first post",
+    "title": "My second post",
     "content": "This is my first post",
-    "sender": "Hila"
+    "sender": "Elrom"
 }
+
+###
+//Update a post
+PUT http://localhost:3000/posts/675f12b2954bdbd07dbf74a3
+Content-Type: application/json
+
+{
+    "sender": "Elrom",
+    "title": "My Second Post",
+    "content": "This is my second post"
+}
+
+###
+//Get all comments
+GET http://localhost:3000/comments
+
+###
+//Create a comment
+POST http://localhost:3000/comments
+Content-Type: application/json
+
+{
+  "comment": "This is a new comment",
+  "author": "Shlomit",
+  "postId": "675f121d954bdbd07dbf7498"
+}
+
+###
+//Get comment by post-id
+GET http://localhost:3000/comments?postId=675f121d954bdbd07dbf7498
+
+### 
+//Update a comment by comment-id
+PUT http://localhost:3000/comments/675f17547a86be02491c1998
+Content-Type: application/json
+
+{
+  "comment": "Updated comment",
+  "author": "Hila"
+}
+
+### 
+//Delete a comment
+DELETE http://localhost:3000/comments/675f18c87a86be02491c19a0

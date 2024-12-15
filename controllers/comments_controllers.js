@@ -24,12 +24,10 @@ const getCommentById = async (req,res)=>{
     }catch(error){
         res.status(400).send(error);
     }
-
 }
 
 const addNewComment = async (req, res) => {
     const commentData = req.body;
-
     try {
         const postExists = await postModel.findById(commentData.postId);
         if (!postExists) {
@@ -45,13 +43,11 @@ const addNewComment = async (req, res) => {
 const updateComment = async (req, res) => {
     const commentId = req.params.id;
     const updatedData = req.body;
-
     try {
         const updatedComment = await commentModel.findByIdAndUpdate(commentId, updatedData, { new: true, runValidators: true });
         if (!updatedComment) {
             return res.status(404).send({ message: "Comment not found" });
         }
-
         res.status(200).send(updatedComment);
     } catch (error) {
         res.status(400).send({ message: "Error updating comment", error });
@@ -60,18 +56,15 @@ const updateComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const commentId = req.params.id;
-
     try {
         const deletedComment = await commentModel.findByIdAndDelete(commentId);
         if (!deletedComment) {
             return res.status(404).send({ message: "Comment not found" });
         }
-
         res.status(200).send({ message: "Comment deleted successfully", deletedComment });
     } catch (error) {
         res.status(400).send({ message: "Error deleting comment", error });
     }
 };
-
 
 module.exports = {getAllComments, getCommentById, addNewComment, updateComment, deleteComment};
