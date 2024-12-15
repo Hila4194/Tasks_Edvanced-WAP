@@ -4,7 +4,7 @@ GET http://localhost:3000/posts
 
 ###
 //Get post by a sender
-GET http://localhost:3000/posts?sender=Hila
+GET http://localhost:3000/posts?sender=Elrom
 
 ###
 //Get post by post-id
@@ -16,20 +16,20 @@ POST  http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "title": "My second post",
+    "title": "My First post",
     "content": "This is my first post",
-    "sender": "Elrom"
+    "sender": "Shlomit"
 }
 
 ###
-//Update a post
-PUT http://localhost:3000/posts/675f12b2954bdbd07dbf74a3
+//Update a post by post-id
+PUT http://localhost:3000/posts/675f21ec1f68b2d414a284bb
 Content-Type: application/json
 
 {
-    "sender": "Elrom",
-    "title": "My Second Post",
-    "content": "This is my second post"
+    "sender": "Shlomit",
+    "title": "My Third Post",
+    "content": "This is my third post"
 }
 
 ###
@@ -37,7 +37,7 @@ Content-Type: application/json
 GET http://localhost:3000/comments
 
 ###
-//Create a comment
+//Create a comment by post-id
 POST http://localhost:3000/comments
 Content-Type: application/json
 
@@ -62,5 +62,5 @@ Content-Type: application/json
 }
 
 ### 
-//Delete a comment
+//Delete a comment by comment-id
 DELETE http://localhost:3000/comments/675f18c87a86be02491c19a0
