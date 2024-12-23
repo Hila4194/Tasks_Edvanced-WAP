@@ -21,7 +21,7 @@ const initApp = async () => {
     return new Promise(async (resolve, reject) => {
         await mongoose.connect(process.env.DB_CONNECTION);
         resolve(app);
-        });
+    });
 };
 
 module.exports = initApp;
