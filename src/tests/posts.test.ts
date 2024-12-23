@@ -1,20 +1,20 @@
-const request = require("supertest");
-const appInit = require("../server");
-const mongoose = require("mongoose");
-const postModel = require("../models/posts_model"); 
-
-const testPosts = require("./test_posts");
+import request from "supertest";
+import initApp from "../server";
+import mongoose from "mongoose";
+import postModel from "../models/posts_model";
+import testPosts from "./test_posts";
 
 let app;
+
 beforeAll(async ()=>{
     console.log("Before all tests");
-    app = await appInit();
+    app = await initApp();
     await postModel.deleteMany();
 });
 
-afterAll(()=>{
+afterAll(async()=>{
     console.log("After all tests");
-    mongoose.connection.close();
+    await mongoose.connection.close();
 });
 
 describe("Posts Test", ()=>{

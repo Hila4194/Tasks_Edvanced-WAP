@@ -1,10 +1,10 @@
-const appInit = require("./server");
+import initApp from "./server";
 const port = process.env.PORT;
 
-const tmpFunc = async () => {
-    const app = await appInit();
+initApp().then((app) => {
     app.listen(port, ()=>{
         console.log(`Server is running on port http://localhost:${port}`);
     });
-}
-tmpFunc();
+}).catch(() => {
+    console.log("Error fail starting the server");
+});
