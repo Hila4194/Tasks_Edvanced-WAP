@@ -14,16 +14,20 @@ const initApp = async () => {
         db.once("open", function() {
             console.log("Connected to the database");
         });
-        mongoose.connect(process.env.DB_CONNECTION).then(() => {
-            app.use(bodyParser.json());
-            app.use(bodyParser.urlencoded({ extended: true }));
-            app.use("/posts", postRoutes);
-            app.use("/comments", commentRoutes);
-            resolve(app);
-        })
-        .catch((err) => {
-            reject(err);
-        });
+        if(!process.env.DB_CONNECTION){
+            reject("DB_CONNECTION is not defined");
+        } else {
+            mongoose.connect(process.env.DB_CONNECTION).then(() => {
+                app.use(bodyParser.json());
+                app.use(bodyParser.urlencoded({ extended: true }));
+                app.use("/posts", postRoutes);
+                app.use("/comments", commentRoutes);
+                resolve(app);
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        }
     });
 };
 
