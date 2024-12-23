@@ -1,6 +1,7 @@
-const postModel = require("../models/posts_model");
+import postModel from "../models/posts_model";
+import { Request, Response } from "express";
 
-const getAllposts = async (req, res) =>{
+const getAllposts = async (req: Request, res: Response) =>{
     const senderFilter = req.query.sender;
     try{
         if(senderFilter){
@@ -15,7 +16,7 @@ const getAllposts = async (req, res) =>{
     }
 };
 
-const getpostById = async (req,res)=>{
+const getpostById = async (req: Request, res: Response)=>{
     const postId= req.params.id;
     try{
         const post = await postModel.findById(postId);
@@ -28,7 +29,7 @@ const getpostById = async (req,res)=>{
         res.status(400).send(error);
     }
 }
-const createPost = async (req,res) =>{
+const createPost = async (req: Request, res: Response) =>{
     const post = req.body; 
     try{
         const newPost = await postModel.create(post);
@@ -37,7 +38,7 @@ const createPost = async (req,res) =>{
         res.status(400).send(error);
     }
 };
-const updatePost = async (req, res) => {
+const updatePost = async (req: Request, res: Response) => {
     const postId = req.params.id; 
     const updatedData = req.body; 
     try {
@@ -52,7 +53,7 @@ const updatePost = async (req, res) => {
     }
 };
 
-const deletePost = async (req, res) => {
+const deletePost = async (req: Request, res: Response) => {
     const postId = req.params.id;
     try {
         await postModel.findByIdAndDelete(postId);
@@ -62,4 +63,4 @@ const deletePost = async (req, res) => {
     }
 }
 
-module.exports = {createPost,getpostById,getAllposts,updatePost,deletePost};
+export default {createPost,getpostById,getAllposts,updatePost,deletePost};
