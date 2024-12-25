@@ -1,24 +1,22 @@
 import express, {Request,Response} from "express";
-import post from "../controllers/posts_controllers";
+import postcontroller from "../controllers/posts_controllers";
+import postController from "../controllers/posts_controllers";
 
 const router = express.Router();
 
-router.get("/", (res: Request, req: Response) => {
-    post.getAll(res,req);
-});
+router.get("/", postcontroller.getAll.bind(postcontroller));
 
 router.get("/:id", (res: Request, req: Response) => {
-    post.getById(res,req);
+    postcontroller.getById(res,req);
 });
 
-router.post("/", (res: Request, req: Response) => {
-    post.createItem(res,req);
-});
+router.post("/", postController.createItem.bind(postController));
+
 router.put("/:id", (res: Request, req: Response) => {
-    post.updateItem(res,req);
+    postcontroller.updateItem(res,req);
 });
 router.delete("/:id", (res: Request, req: Response) => {
-    post.deleteItem(res,req);
+    postController.deleteItem(res,req);
 });
 
 export default router;
