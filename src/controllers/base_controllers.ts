@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
+import { Model } from "mongoose";
 
-class Basecontroller {
-    model: any;
-    constructor(model: any) {
+class Basecontroller <T> {
+    model: Model<T>;
+    constructor(model: Model<T>) {
         this.model = model;
     }
     async getAll (req: Request, res: Response)
@@ -20,7 +21,7 @@ class Basecontroller {
             res.status(400).send(error);
         }
     };
-    
+
     async getById (req: Request, res: Response)
     {
         const postId = req.params.id;
@@ -69,4 +70,7 @@ class Basecontroller {
     }
 };
 
-export default Basecontroller;
+const createController = <T> (model: Model<T>) => {
+    return new Basecontroller(model);
+}
+export default createController;
