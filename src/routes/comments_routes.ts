@@ -1,5 +1,6 @@
 import express, {Request,Response} from "express";
 import commentController from "../controllers/comments_controllers";
+import { authMiddleware } from "../controllers/auth_controllers";
 
 const router = express.Router();
 
@@ -9,13 +10,13 @@ router.get("/:id", (res: Request, req: Response) => {
     commentController.getById(res,req);
 });
 
-router.post("/", commentController.createItem.bind(commentController));
+router.post("/", authMiddleware, commentController.createItem.bind(commentController));
 
-router.put("/:id", (res: Request, req: Response) => {
+router.put("/:id",authMiddleware, (res: Request, req: Response) => {
     commentController.updateItem(res,req);
 });
 
-router.delete("/:id", (res: Request, req: Response) => {
+router.delete("/:id", authMiddleware, (res: Request, req: Response) => {
     commentController.deleteItem(res,req);
 });
 
