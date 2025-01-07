@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 
 class Basecontroller <T> {
     model: Model<T>;
-    constructor(model: Model<T>) {
+    constructor(model: any) {
         this.model = model;
     }
     async getAll (req: Request, res: Response)
@@ -69,8 +69,4 @@ class Basecontroller <T> {
         }
     }
 };
-
-const createController = <T> (model: Model<T>) => {
-    return new Basecontroller(model);
-}
-export default createController;
+export default Basecontroller;

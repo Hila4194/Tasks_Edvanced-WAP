@@ -1,6 +1,6 @@
-import express, {Request,Response} from "express";
+import express, {Request,Response,NextFunction} from "express";
 import postcontroller from "../controllers/posts_controllers";
-import postController from "../controllers/posts_controllers";
+import { authMiddleware } from "../controllers/auth_controllers";
 
 const router = express.Router();
 
@@ -10,13 +10,13 @@ router.get("/:id", (res: Request, req: Response) => {
     postcontroller.getById(res,req);
 });
 
-router.post("/", postController.createItem.bind(postController));
+router.post("/",authMiddleware, postcontroller.createItem.bind(postcontroller));
 
-router.put("/:id", (res: Request, req: Response) => {
+router.put("/:id", authMiddleware, (res: Request, req: Response) => {
     postcontroller.updateItem(res,req);
 });
-router.delete("/:id", (res: Request, req: Response) => {
-    postController.deleteItem(res,req);
+router.delete("/:id", authMiddleware, (res: Request, req: Response) => {
+    postcontroller.deleteItem(res,req);
 });
 
 export default router;

@@ -34,7 +34,7 @@ Content-Type: application/json
 
 ### 
 //Delete a post by post-id
-DELETE http://localhost:3000/posts/6761a445f383166db3c83cf8
+DELETE http://localhost:3000/posts/677d1f3799ff8da881d49933
 
 ###
 //Get all comments
@@ -47,17 +47,17 @@ Content-Type: application/json
 
 {
   "comment": "This is a new comment",
-  "author": "Shlomit",
-  "postId": "675f121d954bdbd07dbf7498"
+  "author": "Elrom",
+  "postId": "677d26b94d1ca29c0712e304"
 }
 
 ###
 //Get comment by post-id
-GET http://localhost:3000/comments?postId=675f121d954bdbd07dbf7498
+GET http://localhost:3000/comments?postId=677d26b94d1ca29c0712e304
 
 ### 
 //Update a comment by comment-id
-PUT http://localhost:3000/comments/675f17547a86be02491c1998
+PUT http://localhost:3000/comments/677d1f38a7e944aaea628355
 Content-Type: application/json
 
 {
@@ -68,3 +68,13 @@ Content-Type: application/json
 ### 
 //Delete a comment by comment-id
 DELETE http://localhost:3000/comments/675f18c87a86be02491c19a0
+
+###
+//Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email": "Hila4194@gmail.com",
+    "password": "123456"
+}
