@@ -4,17 +4,32 @@ import mongoose from "mongoose";
 import commentModel from "../models/comments_model";
 import {Express} from "express";
 import testComments from "./test_comments.json";
+import userModel from "../models/user_model";
 
 let app: Express;
 
+type UserInfo = {
+    email: string,
+    password: string,
+    token?: string,
+    _id?: string
+}
+const userInfo: UserInfo = {
+    email: "hila4194@gmail.com",
+    password: "123456"
+}
+
 beforeAll(async ()=>{
-    console.log("Before all tests");
     app = await initApp();
     await commentModel.deleteMany();
+    await userModel.deleteMany();
+    await request(app).post("/auth/register").send(userInfo);
+    const response = await request(app).post("/auth/login").send(userInfo);
+    userInfo.token = response.body.token;
+    userInfo._id = response.body._id;
 });
 
 afterAll(async()=>{
-    console.log("After all tests");
     await mongoose.connection.close();
 });
 
@@ -29,9 +44,10 @@ describe("Comments Test", ()=>{
 
     test("Test create new comment", async ()=>{
         for(let comment of testComments){
-            const response = await request(app).post("/comments").send(comment);
+            const response = await request(app).post("/comments")
+            .set("authorization", "JWT " + userInfo.token)
+            .send(comment);
             expect(response.statusCode).toBe(201);
-            expect(response.body.author).toBe(comment.author);
             expect(response.body.comment).toBe(comment.comment);
             expect(response.body.postId).toBe(comment.postId);
             commentId = response.body._id;
@@ -51,13 +67,14 @@ describe("Comments Test", ()=>{
     });
 
     test("Test filter comment by author", async ()=>{
-        const response = await request(app).get("/comments?suthor=" + testComments[0].author);
+        const response = await request(app).get("/comments?author=" + testComments[0].author);
         expect(response.statusCode).toBe(200);
         expect(response.body.length).toBe(2);
     });
 
     test("Test Delete comment by id", async ()=>{
-        const response = await request(app).delete("/comments/" + commentId);
+        const response = await request(app).delete("/comments/" + commentId)
+        .set("authorization", "JWT " + userInfo.token);
         expect(response.statusCode).toBe(200);
         
         const responseGet = await request(app).get("/comments/" + commentId);
@@ -65,7 +82,9 @@ describe("Comments Test", ()=>{
     });
 
     test("Test create new comment - fail", async ()=>{
-        const response = await request(app).post("/comments").send({
+        const response = await request(app).post("/comments")
+        .set("authorization", "JWT " + userInfo.token)
+        .send({
             comment: "Test Comment 1",
             author: "Hila"
         });
