@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/posts", postRoutes);
 app.use("/comments", commentRoutes);
 app.use("/auth", authRoutes);
+
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
 
