@@ -1,4 +1,4 @@
-import express, {Express} from 'express';
+import express, {Express, NextFunction,Request,Response} from 'express';
 const app = express();
 import dotenv from "dotenv";
 dotenv.config(); 
@@ -7,12 +7,27 @@ import bodyParser from "body-parser";
 import postRoutes from "./routes/posts_routes";
 import commentRoutes from "./routes/comments_routes";
 import authRoutes from "./routes/auth_routes";
+import fileRouter from "./routes/file_routes";
+
+const delay = (req:Request, res:Response, next:NextFunction) => {
+    const d = new Promise<void>((r) => setTimeout(() => r(), 2000));
+    d.then(() => next());
+    next();
+};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use("/posts", postRoutes);
-app.use("/comments", commentRoutes);
-app.use("/auth", authRoutes);
+app.use(async (req, res, next) => {
+    await new Promise<void>((r) => setTimeout(() => r(), 1000));
+});
+app.use("/posts",delay, postRoutes);
+app.use("/comments",delay, commentRoutes);
+app.use("/auth",delay, authRoutes);
+app.use("/file", fileRouter);
+app.use("/public", express.static("public"));
+app.use(express.static("front"));
+
+
 
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUI from "swagger-ui-express";
